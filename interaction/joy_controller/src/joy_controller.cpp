@@ -135,7 +135,6 @@ void JoyCommand::fsm_goal_cb()
           msg.data = "rl";
         }
       }
-
       // if (joy_msg_->axes[4] == -1 && feedback_fsm_ == "idle") {
       //   msg.data = "transform_up";
       //   count++;

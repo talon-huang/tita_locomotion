@@ -13,7 +13,6 @@ void FSMState_Passive::enter() { _data->state_command->firstRun = true; }
 
 void FSMState_Passive::run()
 {
-  // _data->state_command->convertToStateCommands(
   //   std::make_shared<DesiredStateCommand::RemoteControlData>());
   _data->state_command->clear();
   _data->low_cmd->zero();
@@ -27,9 +26,7 @@ void FSMState_Passive::run()
   //   _data->low_cmd_->tau_cmd.tail(6) = kp_joint.cwiseProduct(-_data->low_state_->q.tail(6)) + kd_joint.cwiseProduct(-_data->low_state_->dq.tail(6));
   //   PRINT_MAT(_data->low_state_->dq.tail(6));
   // }
-  // _data->_legController->updateState(_data->low_state_);
   // _data->_stateEstimator->run();
-  // _data->_legController->updateCommand(_data->low_cmd_);
 }
 
 void FSMState_Passive::exit() {}

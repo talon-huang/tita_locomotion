@@ -6,7 +6,7 @@ FSM::FSM(std::shared_ptr<ControlFSMData> data) : _data(data)
 {
   _stateList.invalid = nullptr;
   _stateList.passive = new FSMState_Passive(_data);
-  _stateList.balanceStand = new FSMState_BalanceStand(_data);
+  // _stateList.balanceStand = new FSMState_BalanceStand(_data);
   _stateList.recoveryStand = new FSMState_RecoveryStand(_data);
   _stateList.jointPD = new FSMState_JointPD(_data);
   _stateList.transformDown = new FSMState_TransformDown(_data);
@@ -66,9 +66,9 @@ FSMState * FSM::getNextState(FSMStateName stateName)
     case FSMStateName::PASSIVE:
       return _stateList.passive;
       break;
-    case FSMStateName::BALANCE_STAND:
-      return _stateList.balanceStand;
-      break;
+    // case FSMStateName::BALANCE_STAND:
+      // return _stateList.balanceStand;
+      // break;
     case FSMStateName::RECOVERY_STAND:
       return _stateList.recoveryStand;
       break;

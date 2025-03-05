@@ -1,6 +1,7 @@
 #ifndef FSMSTATE_RL_H
 #define FSMSTATE_RL_H
 
+#include <thread>
 #include "FSMState.h"
 #include "tensorrt_cuda/tensor_cuda_test.hpp"
 /**

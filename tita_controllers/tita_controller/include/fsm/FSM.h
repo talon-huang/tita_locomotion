@@ -14,7 +14,7 @@ struct FSMStateList
 {
   FSMState * invalid;
   FSMState_Passive * passive;
-  FSMState_BalanceStand * balanceStand;
+  // FSMState_BalanceStand * balanceStand;
   FSMState_RecoveryStand * recoveryStand;
   FSMState_JointPD * jointPD;
   FSMState_TransformDown * transformDown;
@@ -24,7 +24,7 @@ struct FSMStateList
   {
     delete invalid;
     delete passive;
-    delete balanceStand;
+    // delete balanceStand;
     delete recoveryStand;
     delete jointPD;
     delete transformDown;

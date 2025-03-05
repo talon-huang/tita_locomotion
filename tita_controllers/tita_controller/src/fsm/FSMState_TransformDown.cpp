@@ -35,7 +35,7 @@ void FSMState_TransformDown::run()
   if (!balance_finish_) {
     _data->state_command->convertToStateCommands(
       std::make_shared<DesiredStateCommand::RemoteControlData>());
-    _data->pinocchio_model->updateWBC();
+    // _data->pinocchio_model->updateWBC();
     if (
       std::abs(_data->wheel_legged_data->pose_position_dot[point::Z]) < 1e-3 &&
       std::abs(_data->wheel_legged_data->pose_position[point::Z]) <

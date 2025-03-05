@@ -100,13 +100,10 @@ void KeyboardControllerNode::ReadKeyThread()
         fsm_goal_.data = "transform_up";
         break;
       case '2':
-        fsm_goal_.data = "balance_stand";
+        fsm_goal_.data = "rl";
         break;
       case '3':
         fsm_goal_.data = "transform_down";
-        break;
-      case '4':
-        fsm_goal_.data = "rl";
         break;
       case 'w':
         twist_.linear.x += STEP_ACCL_X * speed_scale_;

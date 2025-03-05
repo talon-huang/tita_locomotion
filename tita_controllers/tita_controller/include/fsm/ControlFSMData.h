@@ -24,14 +24,14 @@ struct ControlFSMData
       std::make_shared<DesiredStateCommand>(params, state_estimate, wheel_legged_data);
     state_estimator = std::make_shared<StateEstimatorContainer>(
       params, low_state, wheel_legged_data, state_estimate);
-    pinocchio_model = std::make_shared<PinocchioInterface>(
-      params, low_state, low_cmd, state_estimate, state_command, wheel_legged_data);
-    lqr = std::make_shared<LqrBase>(params, wheel_legged_data);
+    // pinocchio_model = std::make_shared<PinocchioInterface>(
+    //   params, low_state, low_cmd, state_estimate, state_command, wheel_legged_data);
+    // lqr = std::make_shared<LqrBase>(params, wheel_legged_data);
   };
 
   std::shared_ptr<RobotControlParameters> params;
-  std::shared_ptr<PinocchioInterface> pinocchio_model;
-  std::shared_ptr<LqrBase> lqr;
+  // std::shared_ptr<PinocchioInterface> pinocchio_model;
+  // std::shared_ptr<LqrBase> lqr;
   std::shared_ptr<LowlevelCmd> low_cmd;
   std::shared_ptr<LowlevelState> low_state;
   std::shared_ptr<StateEstimatorContainer> state_estimator;

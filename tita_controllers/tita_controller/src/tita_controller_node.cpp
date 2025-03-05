@@ -79,9 +79,9 @@ controller_interface::CallbackReturn TitaController::on_configure(
     "~/plan_commands", rclcpp::SystemDefaultsQoS());
   robot_states_publisher_ = get_node()->create_publisher<locomotion_msgs::msg::RobotStates>(
     "~/robot_states", rclcpp::SystemDefaultsQoS());
-  rigid_body_subscription_ = get_node()->create_subscription<locomotion_msgs::msg::RigidBody>(
-    "robot_inertia_calculator/inertia", subscribers_qos,
-    std::bind(&TitaController::rigid_body_cb, this, std::placeholders::_1));
+  // rigid_body_subscription_ = get_node()->create_subscription<locomotion_msgs::msg::RigidBody>(
+  //   "robot_inertia_calculator/inertia", subscribers_qos,
+  //   std::bind(&TitaController::rigid_body_cb, this, std::placeholders::_1));
 
   return controller_interface::CallbackReturn::SUCCESS;
 }
@@ -146,7 +146,7 @@ controller_interface::return_type TitaController::update(
     controlData_->state_estimator->run();
   else
     init_estimator_count_++;
-  controlData_->pinocchio_model->updateState();
+  // controlData_->pinocchio_model->updateState();
   controlData_->state_command->convertFSMState();
   FSMController_->run();
   // Update torque
@@ -457,44 +457,44 @@ void TitaController::robot_states_cb()
   robot_states_publisher_->publish(msg);
 }
 
-void TitaController::rigid_body_cb(const locomotion_msgs::msg::RigidBody::SharedPtr msg)
-{
-  std::lock_guard<std::mutex> lock(rigid_body_mutex_);
-  auto rigid_body = controlData_->pinocchio_model->rigid_body_data_;
-  rigid_body->mass = msg->inertia.m;
-  rigid_body->com(0) = msg->inertia.com.x;
-  rigid_body->com(1) = msg->inertia.com.y;
-  rigid_body->com(2) = msg->inertia.com.z;
-  rigid_body->inertia(0, 0) = msg->inertia.ixx;
-  rigid_body->inertia(1, 1) = msg->inertia.iyy;
-  rigid_body->inertia(2, 2) = msg->inertia.izz;
-  rigid_body->inertia(0, 1) = msg->inertia.ixy;
-  rigid_body->inertia(0, 2) = msg->inertia.ixz;
-  rigid_body->inertia(1, 2) = msg->inertia.iyz;
-  rigid_body->inertia.triangularView<Eigen::StrictlyLower>() =
-    rigid_body->inertia.transpose().triangularView<Eigen::StrictlyLower>();
-  Eigen::MatrixXd diff = rigid_body->inertia - rigid_body->inertia.transpose();
-  if(!diff.isMuchSmallerThan(rigid_body->inertia, 1e-9)){
-    std::cerr << "Inertia matrix is not symmetric!" << std::endl;
-    std::cerr << "Inertia matrix: " << rigid_body->inertia << std::endl;
-  }
-  Eigen::Quaterniond q = Eigen::Quaterniond(
-    msg->transform.orientation.w, msg->transform.orientation.x, msg->transform.orientation.y,
-    msg->transform.orientation.z);
+// void TitaController::rigid_body_cb(const locomotion_msgs::msg::RigidBody::SharedPtr msg)
+// {
+//   std::lock_guard<std::mutex> lock(rigid_body_mutex_);
+//   auto rigid_body = controlData_->pinocchio_model->rigid_body_data_;
+//   rigid_body->mass = msg->inertia.m;
+//   rigid_body->com(0) = msg->inertia.com.x;
+//   rigid_body->com(1) = msg->inertia.com.y;
+//   rigid_body->com(2) = msg->inertia.com.z;
+//   rigid_body->inertia(0, 0) = msg->inertia.ixx;
+//   rigid_body->inertia(1, 1) = msg->inertia.iyy;
+//   rigid_body->inertia(2, 2) = msg->inertia.izz;
+//   rigid_body->inertia(0, 1) = msg->inertia.ixy;
+//   rigid_body->inertia(0, 2) = msg->inertia.ixz;
+//   rigid_body->inertia(1, 2) = msg->inertia.iyz;
+//   rigid_body->inertia.triangularView<Eigen::StrictlyLower>() =
+//     rigid_body->inertia.transpose().triangularView<Eigen::StrictlyLower>();
+//   Eigen::MatrixXd diff = rigid_body->inertia - rigid_body->inertia.transpose();
+//   if(!diff.isMuchSmallerThan(rigid_body->inertia, 1e-9)){
+//     std::cerr << "Inertia matrix is not symmetric!" << std::endl;
+//     std::cerr << "Inertia matrix: " << rigid_body->inertia << std::endl;
+//   }
+//   Eigen::Quaterniond q = Eigen::Quaterniond(
+//     msg->transform.orientation.w, msg->transform.orientation.x, msg->transform.orientation.y,
+//     msg->transform.orientation.z);
 
-  rigid_body->transform.rotation() = q.toRotationMatrix();
-  rigid_body->transform.translation() = Eigen::Vector3d(
-    msg->transform.position.x, msg->transform.position.y, msg->transform.position.z);
-}
+//   rigid_body->transform.rotation() = q.toRotationMatrix();
+//   rigid_body->transform.translation() = Eigen::Vector3d(
+//     msg->transform.position.x, msg->transform.position.y, msg->transform.position.z);
+// }
 
 void TitaController::setup_controller()
 {
   controlData_ = std::make_shared<ControlFSMData>(joint_names_.size());
   setup_control_parameters();
-  controlData_->pinocchio_model->setupPinocchioInterface();
+  // controlData_->pinocchio_model->setupPinocchioInterface();
   controlData_->state_estimator->addEstimator<VectorNavOrientationEstimator>();
-  controlData_->state_estimator->addEstimator<LinearKFPositionVelocityEstimator>();
-  controlData_->state_command->setup_state_command();
+  // controlData_->state_estimator->addEstimator<LinearKFPositionVelocityEstimator>();
+  // controlData_->state_command->setup_state_command();
 
   FSMController_ = std::make_shared<FSM>(controlData_);
 }
@@ -509,7 +509,7 @@ void TitaController::lqr_loop_thread()
     get_node()->get_parameter("lqr_update_rate", lqr_update_rate);
 
     const std::chrono::duration<scalar_t, std::milli> desired_duration(1000 / lqr_update_rate);
-    controlData_->lqr->update();
+    // controlData_->lqr->update();
     // const auto end_time = std::chrono::high_resolution_clock::now();
     // auto actual_duration =
     //   std::chrono::duration_cast<std::chrono::duration<scalar_t, std::milli>>(end_time - now);
