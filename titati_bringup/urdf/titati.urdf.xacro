@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="titati_ros2_control">
+  <!-- <webots>
+    <plugin type="webots_ros2_control::Ros2Control" />
+  </webots> -->
+  <xacro:arg name="prefix" default="" />
+
+  <xacro:arg name="direct_mode" default="false" />
+
+  <xacro:include filename="$(find titati_bringup)/urdf/titati_robot_2.urdf" />
+
+  <xacro:include filename="$(find titati_bringup)/urdf/titati_ros2control.xacro" />
+
+  <!-- <xacro:titati_description prefix="$(arg prefix)"/> -->
+
+  <xacro:titati_ros2control prefix="$(arg prefix)" direct_mode="$(arg direct_mode)" />
+</robot>
