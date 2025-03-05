@@ -19,7 +19,7 @@ FSMState_RL::FSMState_RL(std::shared_ptr<ControlFSMData> data)
   output_last(new float[8]),
   input_1_temp(new float[297])
 {
-  cuda_test_ = std::make_shared<CudaTest>("/home/robot/model_gn.engine");
+  cuda_test_ = std::make_shared<CudaTest>("/home/hxt/Downloads/LocomotionWithNP3O_8dofs_126/tita_rl/model_gn.engine");
   std::cout << "cuda init :" << cuda_test_->get_cuda_init() << std::endl;
 }
 

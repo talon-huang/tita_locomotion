@@ -4,9 +4,7 @@
 #include "common/RobotParameters.h"
 #include "common/enumClass.h"
 #include "estimator/StateEstimatorContainer.h"
-#include "lqr/lqrBase.h"
 #include "planner/DesiredStateCommand.h"
-#include "wbc/pinocchioInterface.h"
 struct ControlFSMData
 {
   // EIGEN_MAKE_ALIGNED_OPERATOR_NEW

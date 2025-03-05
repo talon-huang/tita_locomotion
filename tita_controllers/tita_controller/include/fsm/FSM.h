@@ -2,7 +2,6 @@
 #define FSM_H
 
 #include "FSMState.h"
-#include "FSMState_BalanceStand.h"
 #include "FSMState_JointPD.h"
 #include "FSMState_Passive.h"
 #include "FSMState_RecoveryStand.h"

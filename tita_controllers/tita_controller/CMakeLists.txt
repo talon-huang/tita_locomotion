@@ -22,7 +22,6 @@ generate_parameter_library(tita_controller_parameters
 pluginlib_export_plugin_description_file(controller_interface tita_controller_plugin.xml)
 
 set(ESTIMATOR_FILES
-  src/estimator/LinearKFPositionVelocityEstimator.cpp
   src/estimator/OrientationEstimator.cpp
 )
 set(FSM_FILES
@@ -32,19 +31,13 @@ set(FSM_FILES
   src/fsm/FSMState_Passive.cpp
   src/fsm/FSMState_RecoveryStand.cpp
   src/fsm/FSMState_TransformDown.cpp
-  src/fsm/FSMState_BalanceStand.cpp
   src/fsm/FSMState_RL.cpp
 )
-set(LQR_FILES
-  src/lqr/riccati_solver.cpp
-)
+
 set(PLANNER_FILES
   src/planner/DesiredStateCommand.cpp
 )
-set(WBC_FILES
-  src/wbc/HoQp.cpp
-  src/wbc/pinocchioInterface.cpp
-)
+
 set(TENSORRT_CUDA_FILES
   src/tensorrt_cuda/tensor_cuda_test.cpp
 )
@@ -63,13 +56,7 @@ if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 
-  add_executable(test_inverse_kinematic test/test_inverse_kinematic.cpp)
-  target_link_libraries(test_inverse_kinematic ${PROJECT_NAME})
-  target_compile_options(test_inverse_kinematic PRIVATE -O0 -g)
 
-  add_executable(test_forward_kinematic test/test_forward_kinematic.cpp)
-  target_link_libraries(test_forward_kinematic ${PROJECT_NAME})
-  target_compile_options(test_forward_kinematic PRIVATE -O0 -g)
 endif()
 
 ament_auto_package()
